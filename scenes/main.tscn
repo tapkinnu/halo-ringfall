@@ -242,3 +242,20 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "0 hostiles"
 label_settings = SubResource("LabelSettings_small")
+
+[node name="GrenadeLabel" type="Label" parent="HUD"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -250.0
+offset_top = -24.0
+offset_right = -20.0
+offset_bottom = -4.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "GRENADES: 3"
+label_settings = SubResource("LabelSettings_small")
+horizontal_alignment = 2
+vertical_alignment = 2

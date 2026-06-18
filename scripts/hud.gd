@@ -9,6 +9,7 @@ extends CanvasLayer
 @onready var score_label = $ScoreLabel
 @onready var wave_label = $WaveLabel
 @onready var enemies_label = $EnemiesLabel
+@onready var grenade_label = $GrenadeLabel
 
 # Store initial offset_right (full width position) for bar scaling
 var shield_bar_right: float = 0.0
@@ -35,6 +36,7 @@ func _ready():
         player.shield_updated.connect(_on_shield_updated)
         player.ammo_updated.connect(_on_ammo_updated)
         player.weapon_changed.connect(_on_weapon_changed)
+        player.grenade_updated.connect(_on_grenade_updated)
     
     # Connect to GameManager signals
     if GameManager:
@@ -71,3 +73,6 @@ func _on_wave_changed(wave_num: int):
 
 func _on_enemies_changed(count: int):
     enemies_label.text = str(count) + " hostiles"
+
+func _on_grenade_updated(count: int):
+    grenade_label.text = "GRENADES: " + str(count)

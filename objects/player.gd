@@ -51,6 +51,7 @@ signal health_updated(health: float)
 signal shield_updated(shield: float)
 signal ammo_updated(current: int, reserve: int)
 signal weapon_changed(weapon_name: String)
+signal grenade_updated(count: int)
 
 @onready var camera = $Head/Camera
 @onready var raycast = $Head/Camera/RayCast
@@ -61,6 +62,9 @@ signal weapon_changed(weapon_name: String)
 @onready var reload_timer_node = $ReloadTimer
 
 @export var crosshair: TextureRect
+
+var grenades: int = 3
+var grenade_scene: PackedScene = preload("res://objects/grenade.tscn")
 
 # Functions
 
@@ -156,6 +160,10 @@ func handle_controls(delta):
     # Reload
     if Input.is_action_just_pressed("reload"):
         start_reload()
+    
+    # Throw grenade
+    if Input.is_action_just_pressed("throw_grenade"):
+        action_throw_grenade()
 
 # Camera rotation
 
@@ -314,6 +322,20 @@ func action_shoot():
         movement_velocity += Vector3(0, 0, weapon.knockback)
 
 # Toggle between available weapons (listed in 'weapons')
+
+func action_throw_grenade():
+    if grenades <= 0:
+        return
+    
+    grenades -= 1
+    grenade_updated.emit(grenades)
+    
+    var grenade = grenade_scene.instantiate()
+    get_tree().root.add_child(grenade)
+    grenade.global_position = camera.global_position
+    
+    var forward: Vector3 = -camera.global_transform.basis.z
+    grenade.linear_velocity = forward * 15.0 + Vector3.UP * 3.0
 
 func action_weapon_toggle():
     if Input.is_action_just_pressed("weapon_toggle"):
