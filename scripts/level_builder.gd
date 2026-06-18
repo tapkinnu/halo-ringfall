@@ -71,6 +71,30 @@ func build_level():
     # Overhead light strips
     for pos in [Vector3(0, 6, -12), Vector3(-10, 5, -10), Vector3(10, 5, -10), Vector3(0, 7, -22)]:
         add_light_strip(pos)
+    
+    # Weapon pickup stations
+    var pickup_scene = preload("res://objects/weapon_pickup.tscn")
+    
+    # Assault Rifle refill - left flank
+    var ar_pickup = pickup_scene.instantiate()
+    ar_pickup.position = Vector3(-12, 1.5, -8)
+    ar_pickup.weapon_resource = preload("res://weapons/assault_rifle.tres")
+    ar_pickup.ammo_refill_amount = 60
+    add_child(ar_pickup)
+    
+    # Magnum pickup - right flank
+    var mag_pickup = pickup_scene.instantiate()
+    mag_pickup.position = Vector3(12, 2.5, -16)
+    mag_pickup.weapon_resource = preload("res://weapons/magnum.tres")
+    mag_pickup.ammo_refill_amount = 12
+    add_child(mag_pickup)
+    
+    # Plasma Rifle - elevated central platform
+    var plasma_pickup = pickup_scene.instantiate()
+    plasma_pickup.position = Vector3(0, 4.5, -12)
+    plasma_pickup.weapon_resource = preload("res://weapons/plasma_rifle.tres")
+    plasma_pickup.ammo_refill_amount = 50
+    add_child(plasma_pickup)
 
 func add_platform(scene_path: String, pos: Vector3, rot_y: float):
     var scene = load(scene_path)

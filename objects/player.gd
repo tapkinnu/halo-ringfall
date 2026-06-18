@@ -401,6 +401,22 @@ func change_weapon():
     ammo_updated.emit(current_ammo, reserve_ammo)
     weapon_changed.emit(weapon.display_name)
 
+# Pick up a weapon from a pickup station
+func pickup_weapon(new_weapon: Weapon, ammo_refill: int):
+    # Check if weapon is already in inventory by display_name
+    for i in range(weapons.size()):
+        if weapons[i].display_name == new_weapon.display_name:
+            # Already have this weapon — just refill reserve ammo
+            reserve_ammo += ammo_refill
+            ammo_updated.emit(current_ammo, reserve_ammo)
+            weapon_changed.emit(new_weapon.display_name)
+            return
+    
+    # New weapon — add to inventory and switch to it
+    weapons.append(new_weapon)
+    var new_index = weapons.size() - 1
+    switch_to_weapon(new_index)
+
 # Take damage - shield absorbs first, then health
 
 func damage(amount):

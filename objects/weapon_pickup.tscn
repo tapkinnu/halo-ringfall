@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://objects/weapon_pickup.gd" id="1_script"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_vb66f"]
+size = Vector3(0.5, 0.5, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qs23h"]
+size = Vector3(1.0, 1.0, 1.0)
+
+[node name="WeaponPickup" type="Area3D"]
+script = ExtResource("1_script")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_vb66f")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_qs23h")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+light_energy = 3.0
+omni_range = 5.0
