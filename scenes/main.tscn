@@ -259,3 +259,21 @@ text = "GRENADES: 3"
 label_settings = SubResource("LabelSettings_small")
 horizontal_alignment = 2
 vertical_alignment = 2
+
+[node name="WaveCountdown" type="Label" parent="HUD"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -60.0
+offset_right = 150.0
+offset_bottom = -18.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "NEXT WAVE IN: 8"
+label_settings = SubResource("LabelSettings_big")
+horizontal_alignment = 1
+vertical_alignment = 1
+visible = false

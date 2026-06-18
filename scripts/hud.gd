@@ -10,6 +10,7 @@ extends CanvasLayer
 @onready var wave_label = $WaveLabel
 @onready var enemies_label = $EnemiesLabel
 @onready var grenade_label = $GrenadeLabel
+@onready var wave_countdown_label = $WaveCountdown
 
 # Store initial offset_right (full width position) for bar scaling
 var shield_bar_right: float = 0.0
@@ -43,6 +44,8 @@ func _ready():
         GameManager.score_changed.connect(_on_score_changed)
         GameManager.wave_changed.connect(_on_wave_changed)
         GameManager.enemies_remaining_changed.connect(_on_enemies_changed)
+        GameManager.intermission_started.connect(_on_intermission_started)
+        GameManager.intermission_tick.connect(_on_intermission_tick)
 
 func _on_health_updated(health_val: float):
     var pct = clamp(health_val / 100.0, 0.0, 1.0)
@@ -70,9 +73,17 @@ func _on_score_changed(score_val: int):
 
 func _on_wave_changed(wave_num: int):
     wave_label.text = "WAVE " + str(wave_num)
+    wave_countdown_label.visible = false
 
 func _on_enemies_changed(count: int):
     enemies_label.text = str(count) + " hostiles"
 
 func _on_grenade_updated(count: int):
     grenade_label.text = "GRENADES: " + str(count)
+
+func _on_intermission_started(duration: float) -> void:
+    wave_countdown_label.text = "NEXT WAVE IN: " + str(int(ceil(duration)))
+    wave_countdown_label.visible = true
+
+func _on_intermission_tick(time_remaining: float) -> void:
+    wave_countdown_label.text = "NEXT WAVE IN: " + str(int(ceil(time_remaining)))

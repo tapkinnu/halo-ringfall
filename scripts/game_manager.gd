@@ -3,17 +3,37 @@ extends Node
 signal score_changed(score: int)
 signal wave_changed(wave: int)
 signal enemies_remaining_changed(count: int)
+signal intermission_started(duration: float)
+signal intermission_tick(time_remaining: float)
 
 var score: int = 0
 var wave: int = 0
 var enemies_remaining: int = 0
 var total_kills: int = 0
 
+var intermission: bool = false
+var intermission_timer: float = 0.0
+var intermission_duration: float = 8.0
+
+var _last_tick_second: int = -1
+
 @onready var enemy_container: Node = null
 
 func _ready():
     enemy_container = get_tree().current_scene.get_node_or_null("Enemies")
     start_next_wave()
+
+func _process(delta: float) -> void:
+    if intermission:
+        intermission_timer -= delta
+        var current_second: int = ceil(intermission_timer)
+        if current_second != _last_tick_second:
+            _last_tick_second = current_second
+            intermission_tick.emit(intermission_timer)
+        if intermission_timer <= 0.0:
+            intermission = false
+            _last_tick_second = -1
+            start_next_wave()
 
 func add_score(amount: int) -> void:
     score += amount
@@ -26,8 +46,10 @@ func on_enemy_killed() -> void:
         enemies_remaining = 0
     enemies_remaining_changed.emit(enemies_remaining)
     if enemies_remaining == 0:
-        await get_tree().create_timer(3.0).timeout
-        start_next_wave()
+        intermission = true
+        intermission_timer = intermission_duration
+        _last_tick_second = ceil(intermission_duration)
+        intermission_started.emit(intermission_duration)
 
 func start_next_wave() -> void:
     wave += 1
