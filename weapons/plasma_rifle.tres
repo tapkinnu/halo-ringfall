@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=4 format=3]
+
+[ext_resource type="Texture2D" path="res://sprites/crosshair-repeater.png" id="1_cross"]
+[ext_resource type="PackedScene" path="res://models/blaster-repeater.glb" id="2_model"]
+[ext_resource type="Script" path="res://scripts/weapon.gd" id="3_script"]
+
+[resource]
+script = ExtResource("3_script")
+model = ExtResource("2_model")
+rotation = Vector3(0, 180, 0)
+muzzle_position = Vector3(0.1, -0.4, 1.5)
+cooldown = 0.06
+max_distance = 10
+damage = 6.0
+spread = 1.5
+shot_count = 1
+knockback = 5
+min_knockback = Vector2(0.005, 0.005)
+max_knockback = Vector2(0.01, 0.008)
+max_ammo = 50
+reserve_ammo = 100
+reload_time = 2.5
+auto_fire = true
+sound_shoot = "sounds/blaster_repeater.ogg"
+sound_reload = "sounds/weapon_change.ogg"
+crosshair = ExtResource("1_cross")
+display_name = "Type-25 Plasma Rifle"

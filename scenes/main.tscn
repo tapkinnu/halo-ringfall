@@ -1,0 +1,244 @@
+[gd_scene load_steps=12 format=3]
+
+[ext_resource type="Environment" path="res://scenes/main-environment.tres" id="1_env"]
+[ext_resource type="PackedScene" path="res://objects/player.tscn" id="2_player"]
+[ext_resource type="Script" path="res://scripts/hud.gd" id="3_hud"]
+[ext_resource type="FontFile" path="res://fonts/lilita_one_regular.ttf" id="4_font"]
+[ext_resource type="Script" path="res://scripts/level_builder.gd" id="5_level"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_font"]
+font = ExtResource("4_font")
+font_size = 28
+outline_size = 8
+outline_color = Color(0, 0, 0, 0.6)
+
+[sub_resource type="LabelSettings" id="LabelSettings_big"]
+font = ExtResource("4_font")
+font_size = 42
+outline_size = 10
+outline_color = Color(0, 0, 0, 0.7)
+
+[sub_resource type="LabelSettings" id="LabelSettings_small"]
+font = ExtResource("4_font")
+font_size = 20
+outline_size = 6
+outline_color = Color(0, 0, 0, 0.6)
+
+[sub_resource type="StandardMaterial3D" id="ShieldBarMat"]
+albedo_color = Color(0.2, 0.8, 1.0, 0.9)
+emission_enabled = true
+emission = Color(0.1, 0.5, 1.0, 1.0)
+emission_energy_multiplier = 0.5
+
+[sub_resource type="StandardMaterial3D" id="HealthBarMat"]
+albedo_color = Color(0.9, 0.2, 0.2, 0.9)
+
+[node name="Main" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource("1_env")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.422618, -0.694272, 0.582563, 0, 0.642788, 0.766044, -0.906308, 0.323744, -0.271654, 0, 0, 0)
+light_color = Color(0.5, 0.55, 0.7, 1)
+light_energy = 1.5
+shadow_enabled = true
+shadow_opacity = 0.6
+
+[node name="FillLight" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.5, -0.5, 0.7, 0, 0.8, 0.6, -0.8, -0.3, 0.3, 0, 0, 0)
+light_color = Color(0.2, 0.15, 0.3, 1)
+light_energy = 0.3
+shadow_enabled = false
+
+[node name="Player" parent="." node_paths=PackedStringArray("crosshair") instance=ExtResource("2_player")]
+crosshair = NodePath("../HUD/Crosshair")
+
+[node name="Level" type="Node3D" parent="."]
+script = ExtResource("5_level")
+
+[node name="Enemies" type="Node" parent="."]
+
+[node name="HUD" type="CanvasLayer" parent="."]
+script = ExtResource("3_hud")
+
+[node name="Crosshair" type="TextureRect" parent="HUD"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.35, 0.35)
+pivot_offset = Vector2(64, 64)
+
+[node name="ShieldBarBg" type="ColorRect" parent="HUD"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -180.0
+offset_top = -62.0
+offset_right = 180.0
+offset_bottom = -50.0
+grow_horizontal = 2
+grow_vertical = 0
+color = Color(0.05, 0.05, 0.1, 0.7)
+
+[node name="ShieldBar" type="ColorRect" parent="HUD"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -180.0
+offset_top = -62.0
+offset_right = 180.0
+offset_bottom = -50.0
+grow_horizontal = 2
+grow_vertical = 0
+color = Color(0.2, 0.8, 1.0, 0.9)
+
+[node name="ShieldLabel" type="Label" parent="HUD"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -178.0
+offset_top = -88.0
+offset_right = 20.0
+offset_bottom = -64.0
+grow_vertical = 0
+text = "SHIELD"
+label_settings = SubResource("LabelSettings_small")
+vertical_alignment = 2
+
+[node name="HealthBarBg" type="ColorRect" parent="HUD"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -180.0
+offset_top = -48.0
+offset_right = 180.0
+offset_bottom = -36.0
+grow_horizontal = 2
+grow_vertical = 0
+color = Color(0.1, 0.03, 0.03, 0.7)
+
+[node name="HealthBar" type="ColorRect" parent="HUD"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -180.0
+offset_top = -48.0
+offset_right = 180.0
+offset_bottom = -36.0
+grow_horizontal = 2
+grow_vertical = 0
+color = Color(0.9, 0.2, 0.2, 0.9)
+
+[node name="HealthLabel" type="Label" parent="HUD"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -178.0
+offset_top = -74.0
+offset_right = 20.0
+offset_bottom = -50.0
+grow_vertical = 0
+text = "HEALTH"
+label_settings = SubResource("LabelSettings_small")
+vertical_alignment = 2
+
+[node name="AmmoLabel" type="Label" parent="HUD"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -250.0
+offset_top = -72.0
+offset_right = -20.0
+offset_bottom = -28.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "32 / 96"
+label_settings = SubResource("LabelSettings_big")
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="WeaponLabel" type="Label" parent="HUD"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -250.0
+offset_top = -100.0
+offset_right = -20.0
+offset_bottom = -72.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "MA5 Assault Rifle"
+label_settings = SubResource("LabelSettings_small")
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="ScoreLabel" type="Label" parent="HUD"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_top = 0.0
+anchor_right = 0.5
+anchor_bottom = 0.0
+offset_left = -100.0
+offset_top = 16.0
+offset_right = 100.0
+offset_bottom = 52.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "SCORE: 0"
+label_settings = SubResource("LabelSettings_font")
+horizontal_alignment = 1
+
+[node name="WaveLabel" type="Label" parent="HUD"]
+anchors_preset = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 20.0
+offset_top = 16.0
+offset_right = 200.0
+offset_bottom = 52.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "WAVE 1"
+label_settings = SubResource("LabelSettings_font")
+
+[node name="EnemiesLabel" type="Label" parent="HUD"]
+anchors_preset = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 20.0
+offset_top = 52.0
+offset_right = 200.0
+offset_bottom = 82.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "0 hostiles"
+label_settings = SubResource("LabelSettings_small")

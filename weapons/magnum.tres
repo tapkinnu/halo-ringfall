@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=4 format=3]
+
+[ext_resource type="Texture2D" path="res://sprites/crosshair.png" id="1_cross"]
+[ext_resource type="PackedScene" path="res://models/blaster.glb" id="2_model"]
+[ext_resource type="Script" path="res://scripts/weapon.gd" id="3_script"]
+
+[resource]
+script = ExtResource("3_script")
+model = ExtResource("2_model")
+rotation = Vector3(0, 180, 0)
+muzzle_position = Vector3(0.1, -0.4, 1.5)
+cooldown = 0.2
+max_distance = 12
+damage = 35.0
+spread = 0.2
+shot_count = 1
+knockback = 25
+min_knockback = Vector2(0.02, 0.02)
+max_knockback = Vector2(0.035, 0.03)
+max_ammo = 8
+reserve_ammo = 24
+reload_time = 1.5
+auto_fire = false
+sound_shoot = "sounds/blaster.ogg"
+sound_reload = "sounds/weapon_change.ogg"
+crosshair = ExtResource("1_cross")
+display_name = "M6 Magnum"

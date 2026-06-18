@@ -1,0 +1,41 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="PackedScene" path="res://models/enemy-flying.glb" id="1_model"]
+[ext_resource type="Script" path="res://objects/enemy_elite.gd" id="2_script"]
+[ext_resource type="SpriteFrames" path="res://sprites/burst_animation.tres" id="3_frames"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_1"]
+radius = 0.75
+
+[node name="enemy-elite" type="Area3D"]
+script = ExtResource("2_script")
+max_health = 60.0
+max_shield = 50.0
+move_speed = 3.5
+attack_damage = 7.0
+attack_range = 15.0
+attack_cooldown = 0.8
+score_value = 25
+
+[node name="enemy-flying" parent="." instance=ExtResource("1_model")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 0, 0.25, 0)
+shape = SubResource("SphereShape3D_1")
+
+[node name="RayCast" type="RayCast3D" parent="."]
+target_position = Vector3(0, 0, 15)
+
+[node name="MuzzleA" type="AnimatedSprite3D" parent="."]
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, -0.55, 0.3, 0.5)
+sprite_frames = ExtResource("3_frames")
+frame = 2
+
+[node name="MuzzleB" type="AnimatedSprite3D" parent="."]
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0.55, 0.3, 0.5)
+sprite_frames = ExtResource("3_frames")
+frame = 2
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.25
+autostart = true
